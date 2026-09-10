@@ -33,10 +33,10 @@ python3 -m venv .venv
 source ./venv/bin/activate
 ```
 
-Instala la dependencia de Python:
+Instala las dependencias del entorno virtual de Python:
 
 ```bash
-pip install yt-dlp
+pip install -r requirements.txt
 ```
 
 Instala FFmpeg en Ubuntu:
@@ -59,7 +59,7 @@ ffmpeg -version
 Ejecuta el script:
 
 ```bash
-python main.py
+python3 src/main.py
 ```
 
 El programa solicitará la URL del video y el nombre del archivo:
