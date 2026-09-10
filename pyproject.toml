@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "youtube-to-mp3"
+version = "0.1.0"
+description = "A simple Python application to download YouTube audio and convert it to MP3"
+requires-python = ">=3.12"
+dependencies = [
+    "yt-dlp"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

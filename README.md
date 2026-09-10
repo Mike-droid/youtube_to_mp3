@@ -30,7 +30,7 @@ Crea y activa un entorno virtual:
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
+source ./venv/bin/activate
 ```
 
 Instala la dependencia de Python:

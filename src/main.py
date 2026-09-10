@@ -1,52 +1,40 @@
-from pathlib import Path
-import subprocess
-import yt_dlp
+from converter import (
+    create_download_directory,
+    convert_to_mp3,
+    delete_file,
+    download_audio,
+)
 
 
-url = input("URL de YouTube: ").strip()
-filename = input("Nombre del archivo: ").strip()
+def main() -> None:
+    url = input("URL de YouTube: ").strip()
+    filename = input("Nombre del archivo: ").strip()
 
-output_dir = Path("downloads")
-output_dir.mkdir(exist_ok=True)
+    output_dir = create_download_directory()
 
-webm_path = output_dir / f"{filename}.webm"
-mp3_path = output_dir / f"{filename}.mp3"
+    webm_path = output_dir / f"{filename}.webm"
+    mp3_path = output_dir / f"{filename}.mp3"
 
-# 1. Descargar únicamente el mejor audio disponible
-options = {
-    "format": "bestaudio/best",
-    "outtmpl": str(webm_path),
-}
+    try:
+        print("\nDescargando audio...")
 
-try:
-    print("\nDescargando audio...")
+        download_audio(url, webm_path)
 
-    with yt_dlp.YoutubeDL(options) as ydl:
-        ydl.download([url])
+        print("✓ Descarga completada.")
 
-    print("✓ Descarga completada.")
+        print("\nConvirtiendo a MP3...")
 
-    # 2. Convertir WebM → MP3 usando FFmpeg
-    print("\nConvirtiendo a MP3...")
+        convert_to_mp3(webm_path, mp3_path)
 
-    subprocess.run(
-        [
-            "ffmpeg",
-            "-i", str(webm_path),
-            "-vn",
-            "-codec:a", "libmp3lame",
-            "-b:a", "192k",
-            str(mp3_path),
-        ],
-        check=True,
-    )
+        print("✓ Conversión completada.")
 
-    print("✓ Conversión completada.")
+        delete_file(webm_path)
 
-    # 3. Eliminar el WebM temporal
-    webm_path.unlink()
+        print(f"\n✓ Archivo final: {mp3_path}")
 
-    print(f"\n✓ Archivo final: {mp3_path}")
+    except Exception as error:
+        print(f"\n✗ Ocurrió un error: {error}")
 
-except Exception as error:
-    print(f"\n✗ Ocurrió un error: {error}")
+
+if __name__ == "__main__":
+    main()
