@@ -1,4 +1,4 @@
-from converter import (
+from youtube_to_mp3.converter import (
     create_download_directory,
     convert_to_mp3,
     delete_file,
