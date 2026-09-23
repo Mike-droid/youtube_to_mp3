@@ -1,4 +1,4 @@
-name: Tests
+name: CI (Continuous Integration)
 
 on:
   push:
@@ -29,3 +29,14 @@ jobs:
 
       - name: Run tests
         run: python -m pytest -v
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t youtube-to-mp3 .
